@@ -1,7 +1,8 @@
 import random
-from flask import Flask, jsonify
+from flask import Flask
 
 app = Flask(__name__)
+
 
 PREDICTIONS = [
     "Ждите крупную сумму в самом ближайшем будущем.",
@@ -35,13 +36,48 @@ PREDICTIONS = [
     "Желание, о котором вы редко говорите, начнёт сбываться.",
     "Будущее благосклонно к вам."
 ]
-
 @app.route("/")
 def oracle():
     prediction = random.choice(PREDICTIONS)
-    return jsonify({
-        "prediction": prediction
-    })
-
-if __name__ == "__main__":
-    app.run()
+    return f"""
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Оракул</title>
+        <style>
+            body {{
+                background: radial-gradient(circle at top, #1b1b1b, #000);
+                color: #f5e6c8;
+                font-family: Georgia, serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }}
+            .box {{
+                text-align: center;
+                max-width: 600px;
+                padding: 40px;
+                border: 1px solid #444;
+                box-shadow: 0 0 40px rgba(255, 215, 100, 0.2);
+            }}
+            h1 {{
+                letter-spacing: 0.1em;
+                margin-bottom: 30px;
+            }}
+            p {{
+                font-size: 22px;
+                line-height: 1.5;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <h1>🔮 ПРЕДСКАЗАНИЕ</h1>
+            <p>{prediction}</p>
+        </div>
+    </body>
+    </html>
+    """
